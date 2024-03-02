@@ -1,0 +1,42 @@
+body .sidenavContainer{
+    font-family: Space Grotesk,sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.sidenav-close-bar{
+    height: 100%;
+    padding: 15px 10px;
+    border-right: 0.5px solid grey;
+    width: 4%;
+    @media screen and (max-width: 768px) {
+        // display: block;
+        border-right: none;
+        border-top: 0.5px solid grey;
+        height: auto;
+        width: 100%;
+    }
+}
+.tabItem img{
+    max-width: 30px;
+    filter: invert(100%);
+    margin: 15px 0px;
+    cursor: pointer;
+    // fille
+}
+.slideNav{
+    width: 22%;
+    border-right: 3px solid grey;
+    @media screen and (max-width: 768px) {
+        border-right: none;
+        width: 100%;
+        height: 100%;
+    }
+}
+.sidenavContainer{
+    height: 100%;
+    // @media screen and (max-width: 768px) {
+        
+    // }
+}

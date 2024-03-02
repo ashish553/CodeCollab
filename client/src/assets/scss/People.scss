@@ -1,0 +1,37 @@
+.people{
+    width: 90%;
+    margin: auto;
+    .title{
+        margin-top: 20px;
+    }
+    .peopleContainer{
+        width: 80%;
+        margin: auto;
+        margin-top: 20px;
+        flex-wrap: wrap;
+
+        .eachUserItem{
+            // flex-grow: 1;
+            // margin: 0px 10px;
+            .online{
+                width: 14px;
+                height: 14px;
+                border-radius: 10px;
+                background-color: rgb(81, 194, 81);
+                position: absolute;
+                right: -5px;
+                top: -5px;
+                border: 1px solid black;
+            }
+        }
+        .userIcon{
+            position: relative;
+            padding: 25px;
+            background-color: orangered;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 10px;
+            user-select: none;
+        }   
+    }
+}
