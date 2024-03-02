@@ -1,6 +1,9 @@
 .people{
+    display: flex;
+    flex-direction: column;
     width: 90%;
     margin: auto;
+    height: 100%;
     .title{
         margin-top: 20px;
     }
@@ -33,5 +36,17 @@
             border-radius: 10px;
             user-select: none;
         }   
+    }
+    .peopleButtonContainer{
+        // height: 100%;
+        button.leaveButton{
+            margin: 10px 0px 20px 0px;
+            background-color: rgb(57, 224, 121);
+        }
+        button{
+            border: none;
+            border-radius: 5px;
+            padding: 10px 0px;
+        }
     }
 }

@@ -11,11 +11,8 @@ import { SlideContext } from '../../context/SlideContext';
 
 
 function Editor() {
-  // const {activeTab, setactiveTab} = useState('Files')
   const {activeTab} = useContext(TabContext)
   const {slideShow} = useContext(SlideContext)
-  // console.log('outside', slideShow);
-  // console.log(activeTab);
   return (
     <div className='sidenavContainer d-flex flex-md-row flex-column-reverse'>
       {/* <TabContextP> */}

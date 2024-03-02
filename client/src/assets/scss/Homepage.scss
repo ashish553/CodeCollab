@@ -8,7 +8,6 @@
 body{
     background-color: #212429;
     font-family: "Titillium Web", sans-serif;
-    font-weight: 800;
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -28,4 +27,7 @@ img{
 h1{
     // text-shadow: 0px 1px, 1px 0px, 1px 1px;
     letter-spacing: 3px;
+}
+.tagLine{
+    font-weight: 800;
 }
