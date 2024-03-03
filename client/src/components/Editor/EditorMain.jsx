@@ -3,6 +3,7 @@ import Editor from "./Editor";
 import SlideContextProvider from "../../context/SlideContext";
 import TabContextProvider from "../../context/TabContext";
 import ChatProvider from '../../context/ChatContext';
+import FileContextProvider from '../../context/FileContext';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 
@@ -24,7 +25,9 @@ function EditorMain() {
     <ChatProvider>
       <TabContextProvider>
         <SlideContextProvider>
-          <Editor />
+          <FileContextProvider>
+            <Editor />
+          </FileContextProvider>
         </SlideContextProvider>
       </TabContextProvider>
     </ChatProvider>

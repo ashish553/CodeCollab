@@ -8,6 +8,7 @@ import sliders from '../../assets/images/sliders.svg'
 import Slidenav from './Slidenav';
 import TabContextP, { TabContext } from '../../context/TabContext';
 import { SlideContext } from '../../context/SlideContext';
+import CodeEditor from '../CodeEditor';
 
 
 function Editor() {
@@ -23,6 +24,9 @@ function Editor() {
             <Tab iconName={sliders} iconAlt="Settings icon" tabName={'Settings'}/>
         </div>
         <Slidenav title={activeTab} visibility={slideShow} />
+        <div className="editorContainer">
+          <CodeEditor />
+        </div>
       {/* </TabContextP> */}
     </div>
   )
