@@ -53,6 +53,14 @@ socketIO.on('connection',async (socket)=>{
       console.log(roomClients);
       socket.to(roomId).emit('clientListUpdate',{connectedClientList: roomClients[roomId]})
     })
+    socket.on('filesUpdate',(filesData)=>{
+      console.log(filesData);
+      socket.to(roomId).emit('filesUpdate',filesData)
+    }) //fileDataUpdate
+    socket.on('fileDataUpdate',(filesData)=>{
+      console.log(filesData);
+      socket.to(roomId).emit('fileDataUpdate',filesData)
+    }) //fileDataUpdate
 })
 
 app.get('/api', (req, res) => {

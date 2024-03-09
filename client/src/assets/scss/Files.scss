@@ -9,13 +9,32 @@
     }
     .filesList{
         margin-top: 15px;
-        .fileItem{
+        .file{
             width: 85%;
-            margin: auto;
+            margin: 10px auto;
             // border: 1px solid ;
-            border-radius: 3px;
+            border-radius: 6px;
             padding: 5px 5px;
-            background-color: rgb(214, 214, 102);
+            background-color: #212429;
+            &-active{
+                background-color: #3d404a;
+                input.fileItem{
+                    background-color: #3d404a;
+                }
+            }
+            input{
+                width: 100%;
+                outline: none;
+                border: none;
+                background-color: #212429;
+                // opacity: 0;
+                color: white;
+            }
+            .fileDelete{
+                width: 1.2em;
+                height: 1.2rem;
+                filter: invert(34%) sepia(74%) saturate(3663%) hue-rotate(342deg) brightness(100%) contrast(87%);
+            }
         }
     }
     .fileOps{

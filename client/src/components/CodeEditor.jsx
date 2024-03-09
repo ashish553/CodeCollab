@@ -5,25 +5,46 @@ import CodeMirror from '@uiw/react-codemirror';
 import { aura } from '@uiw/codemirror-themes-all'
 import { langs } from '@uiw/codemirror-extensions-langs';
 import {FileContext} from '../context/FileContext';
+import { Socket } from '../context/SocketContext';
+import { useEffect } from 'react';
 
 function CodeEditor() {
-
+    const {socket} = useContext(Socket)
     const {filesData,setfilesData} = useContext(FileContext)
-    console.log('filesData',filesData);
+
+    useEffect(() => {
+        const fileUpdated = (data) => {
+        //   console.log('filesdata from socket codeone:', data);
+            console.log('filedata right now in editormirror', filesData);
+            setfilesData({...filesData, filesList: data.filesList, currentFile: {
+                ...filesData.currentFile,
+                value: data.filesList[filesData.currentFile.fileId].value
+            }})
+          // setfilesData()
+        }
+        socket.on('fileDataUpdate',fileUpdated)
+      
+        return () => {
+          socket.off('fileDataUpdate',fileUpdated)
+        }
+      }, [filesData])
+
+    console.log('filesData after',filesData);
 
     
+    
     const onChange = (value) => {
+        const data1 = {
+            ...filesData,
+            filesList: {...filesData.filesList,[filesData.currentFile.fileId]:  {...filesData.filesList[filesData.currentFile.fileId], value: value}},
+            currentFile: {...filesData.currentFile, value}
+        }
         setfilesData(
-            {
-                ...filesData,
-                filesList: {...filesData.filesList,[filesData.currentFile.fileId]: {value: value}},
-                currentFile:{
-                    ...filesData.currentFile,
-                    value: value
-                  }
-            }
+            data1
         )
+        socket.emit('fileDataUpdate',data1)
     }
+    console.log('onchanges',filesData);
 
     return <CodeMirror
                 value={filesData.currentFile.value}
