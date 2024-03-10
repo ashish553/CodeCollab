@@ -25,9 +25,9 @@ function EditorMain() {
     <ChatProvider>
       <TabContextProvider>
         <SlideContextProvider>
-          <FileContextProvider>
+          {/* <FileContextProvider> */}
             <Editor />
-          </FileContextProvider>
+          {/* </FileContextProvider> */}
         </SlideContextProvider>
       </TabContextProvider>
     </ChatProvider>

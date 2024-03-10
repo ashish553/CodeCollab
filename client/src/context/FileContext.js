@@ -1,22 +1,24 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import React from 'react'
+import { Socket } from "./SocketContext";
+// import { Socket } from "./SocketContext";
 
 const FileContext = createContext()
 
 function FileContextProvider({children}) {
-    const [filesData, setfilesData] = useState({
-        filesList: {
-          'initialFile': {
-            "value": "asdasd",
-            "fileName": "Initial"
-          },
-        }, //{fileId: {fieldata}}
-        currentFile: {
-          fileId: 'initialFile',
-          value: "asdasd",
-          fileName: "Initial"
-        }, //{filedata}
-    })
+    const [filesData, setfilesData] = useState({})
+    // const {socket} = useContext(Socket)
+    // const {socket} = useContext(Socket)
+
+    // useEffect(() => {
+    //   if(socket){
+    //     console.log('sahdkhqwoiudhqwiodhoqiwhdioqwhdoiwh');
+    //     socket.emit('reqFetchFilesData',(data)=>{})
+    //   }
+    // }, [
+    //   socket
+    // ])
+    
   return (
     <FileContext.Provider value={{filesData, setfilesData}}>
         {children}

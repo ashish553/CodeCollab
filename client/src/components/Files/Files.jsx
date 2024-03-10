@@ -12,14 +12,64 @@ import { useEffect } from 'react';
 
 function Files() {
   const {filesData, setfilesData} = useContext(FileContext)
+  console.log('filesData initiallly when comp load',filesData);
+
+  // useEffect(() => {
+  //   const fileUpdated = (data) => {
+  //     // if(data.isDeleted){
+  //     //   const firstId = Object.keys(data.filesList)[0]
+  //     //   setfilesData({
+  //     //     ...filesData,
+  //     //     filesList: data.filesList,
+  //     //     currentFile: {
+  //     //       fileId: firstId,
+  //     //       value: tempFileData.filesList[firstFileId].value,
+  //     //       fileName: tempFileData.filesList[firstFileId].fileName,
+  //     //     }
+  //     //   })
+  //     // }
+  //     console.log('filesdata from socket:', data);
+  //     setfilesData({
+  //       ...filesData,
+  //       filesList: data.filesList
+  //     })
+  //     // setfilesData()
+  //   }
+  //   socket.on('fileDelete',fileUpdated)
+  
+  //   return () => {
+  //     socket.off('filesUpdate',fileUpdated)
+  //   }
+  // }, [filesData])
 
   useEffect(() => {
     const fileUpdated = (data) => {
+      // if(data.isDeleted){
+      //   const firstId = Object.keys(data.filesList)[0]
+      //   setfilesData({
+      //     ...filesData,
+      //     filesList: data.filesList,
+      //     currentFile: {
+      //       fileId: firstId,
+      //       value: tempFileData.filesList[firstFileId].value,
+      //       fileName: tempFileData.filesList[firstFileId].fileName,
+      //     }
+      //   })
+      // }
       console.log('filesdata from socket:', data);
-      setfilesData({
-        ...filesData,
-        filesList: data.filesList
-      })
+      if(data.isDeleted){
+        console.log('isdeleted',data);
+        setfilesData({
+          ...(Object.keys(data.filesList).length && filesData),
+          filesList: data.filesList
+        })
+      } else {
+        setfilesData({
+          ...filesData,
+          filesList: data.filesList,
+          currentFile: data.currentFile
+        })
+      }
       // setfilesData()
     }
     socket.on('filesUpdate',fileUpdated)
@@ -75,10 +125,9 @@ function Files() {
     })
     
   }
-
   const deleteFile = (fileId) => {
     if(filesData.currentFile.fileId===fileId){
-      const tempFileData = {...filesData}
+      const tempFileData = filesData
       console.log('files data in delte func', filesData);
       console.log('before temp',tempFileData);
       delete tempFileData.filesList[fileId]
@@ -86,21 +135,22 @@ function Files() {
       console.log('temp',tempFileData);
       setfilesData(
         {
-          ...tempFileData,
-          currentFile:{
+          filesList: tempFileData.filesList,
+          ...(tempFileData?.filesList[firstFileId]?.value && {currentFile:{
             fileId: firstFileId,
-            value: tempFileData.filesList[firstFileId].value,
-            fileName: tempFileData.filesList[firstFileId].fileName,
-          }
+            value: tempFileData?.filesList[firstFileId]?.value,
+            fileName: tempFileData?.filesList[firstFileId]?.fileName,
+          }})
         }
       )
       socket.emit('filesUpdate',{
-        ...tempFileData,
-        currentFile:{
+        filesList: tempFileData.filesList,
+        ...(tempFileData?.filesList[firstFileId]?.value && {currentFile:{
           fileId: firstFileId,
-          value: tempFileData.filesList[firstFileId].value,
-          fileName: tempFileData.filesList[firstFileId].fileName,
-        }
+          value: tempFileData?.filesList[firstFileId]?.value,
+          fileName: tempFileData?.filesList[firstFileId]?.fileName,
+        }}),
+        isDeleted: true
       })
       // delete filesData.filesList[fileId]
     }else{

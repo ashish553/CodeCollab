@@ -3,6 +3,8 @@ import { Outlet, createBrowserRouter, RouterProvider } from "react-router-dom";
 import EditorMain from "./components/Editor/EditorMain";
 import Homepage from "./components/Homepage";
 import SocketContext from "./context/SocketContext";
+import FileContextProvider from './context/FileContext';
+
 
 const router = createBrowserRouter([
   {
@@ -19,7 +21,9 @@ function App() {
   return (
     <div className="App">
         <SocketContext>
-          <RouterProvider router={router} />
+          <FileContextProvider>
+            <RouterProvider router={router} />
+          </FileContextProvider>
         </SocketContext>
       </div>
     //   {/* <Homepage /> */}

@@ -5,11 +5,14 @@ import { Socket } from '../context/SocketContext';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { ToastContainer,toast,Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FileContext } from '../context/FileContext';
+
 
 
 const Login = (props) => {
 
     const {socket,setsocket,clientList,setClientList,setCurrentUser} = useContext(Socket)
+    const {filesData, setfilesData} = useContext(FileContext)
     const [username, setusername] = useState(null)
     const [roomId, setroomId] = useState('')
     const navigate = useNavigate()
@@ -47,9 +50,16 @@ const Login = (props) => {
                 username,
                 socketID: 'randomshit'
             }})
+            let clients = ''
             socketLocal.on('newClientJoined',(data)=>{
                 console.log(data);
+                clients = data.connectedClientList.length
                 setClientList([...data.connectedClientList])
+            })
+            socketLocal.on('currentFilesData',(data)=>{
+                console.log('clietnsnumber', clients);
+                console.log('files data after joined', data);
+                setfilesData({...data})
             })
             setsocket(socketLocal)
             console.log('join');

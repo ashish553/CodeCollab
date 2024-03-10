@@ -46,8 +46,8 @@ function CodeEditor() {
     }
     console.log('onchanges',filesData);
 
-    return <CodeMirror
-                value={filesData.currentFile.value}
+    return filesData?.currentFile && <CodeMirror
+                value={filesData?.currentFile?.value}
                 minHeight="100vh"
                 minWidth="100%"
                 onChange={onChange}
