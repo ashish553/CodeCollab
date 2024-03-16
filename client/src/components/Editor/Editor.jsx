@@ -24,7 +24,7 @@ function Editor() {
             <Tab iconName={sliders} iconAlt="Settings icon" tabName={'Settings'}/>
         </div>
         <Slidenav title={activeTab} visibility={slideShow} />
-        <div className="editorContainer">
+        <div className="editorContainer custom-scroll">
           <CodeEditor />
         </div>
       {/* </TabContextP> */}

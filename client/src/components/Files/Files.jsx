@@ -8,54 +8,21 @@ import {FileContext} from '../../context/FileContext';
 import trash from '../../assets/images/trash.svg'
 import { Socket } from '../../context/SocketContext';
 import { useEffect } from 'react';
-
+import { getIconForFile } from 'vscode-icons-js';
+import {Icon} from '@iconify/react'
+import FileSaver, {saveAs} from 'file-saver'
+import JSZip from "jszip"
 
 function Files() {
   const {filesData, setfilesData} = useContext(FileContext)
   console.log('filesData initiallly when comp load',filesData);
+  console.log(getIconForFile('index.jsx'));
 
-  // useEffect(() => {
-  //   const fileUpdated = (data) => {
-  //     // if(data.isDeleted){
-  //     //   const firstId = Object.keys(data.filesList)[0]
-  //     //   setfilesData({
-  //     //     ...filesData,
-  //     //     filesList: data.filesList,
-  //     //     currentFile: {
-  //     //       fileId: firstId,
-  //     //       value: tempFileData.filesList[firstFileId].value,
-  //     //       fileName: tempFileData.filesList[firstFileId].fileName,
-  //     //     }
-  //     //   })
-  //     // }
-  //     console.log('filesdata from socket:', data);
-  //     setfilesData({
-  //       ...filesData,
-  //       filesList: data.filesList
-  //     })
-  //     // setfilesData()
-  //   }
-  //   socket.on('fileDelete',fileUpdated)
   
-  //   return () => {
-  //     socket.off('filesUpdate',fileUpdated)
-  //   }
-  // }, [filesData])
 
   useEffect(() => {
     const fileUpdated = (data) => {
-      // if(data.isDeleted){
-      //   const firstId = Object.keys(data.filesList)[0]
-      //   setfilesData({
-      //     ...filesData,
-      //     filesList: data.filesList,
-      //     currentFile: {
-      //       fileId: firstId,
-      //       value: tempFileData.filesList[firstFileId].value,
-      //       fileName: tempFileData.filesList[firstFileId].fileName,
-      //     }
-      //   })
-      // }
+      // 
       console.log('filesdata from socket:', data);
       if(data.isDeleted){
         console.log('isdeleted',data);
@@ -83,6 +50,25 @@ function Files() {
   const {socket} = useContext(Socket)
 
   // const [fileName, setfileName] = useState('')
+  const downloadAllFiles = (filesList) => {
+    const zip = new JSZip()
+    for (const fileId in filesList) {
+      const blobFile = new Blob([filesList[fileId].value], {
+        type: "text/plain;charset=utf-8",
+      })
+      console.log(blobFile);
+      zip.file(filesList[fileId].fileName, blobFile)
+    }
+    zip.generateAsync({ type: "blob" }).then(function (content) {
+      saveAs(content, "CodeCollab-Files.zip")
+    })
+}
+
+  const downloadFile = ({value,fileName}) => {
+    const file = new Blob([value], {type: "text/plain;charset=utf-8"})
+    saveAs(file, fileName)
+  }
+  const getFileName = (filename) => 'vscode-icons:'+getIconForFile(filename).replace(/_/g,'-').split('.')[0]
 
   const fileSelect = (id) => {
       setfilesData(
@@ -99,12 +85,7 @@ function Files() {
   }
   const createNewFile = () => {
     const fileIdGen = `${Date.now()}`
-    // setfileListLocal([...fileListLocal,{
-    //   fileName: 'Untitled',
-    //   editable: true,
-    //   fileId: fileIdGen
 
-    // }])
     setfilesData({
       ...filesData,
       filesList: {...filesData.filesList, [fileIdGen]: {value: '', fileName: 'Untitled'}},
@@ -189,6 +170,11 @@ function Files() {
                     fileSelect(e.target.id.split('-')[0])
                   }}
                 >
+                  <Icon
+                    icon={getFileName(filesData.filesList[eachFileId].fileName) || 'mdi:file-outline'}
+                    fontSize={25}
+                    className='mr-2'
+                  />
                   <input
                     className="fileItem"
                     id={`${eachFileId}-fileID`}
@@ -227,6 +213,16 @@ function Files() {
       <div className="fileOps">
         <button className="newFile" onClick={createNewFile}>
           New File
+        </button>
+        <button className="newFile" onClick={()=>{
+          downloadFile(filesData.currentFile)
+        }}>
+          Download File
+        </button>
+        <button className="newFile" onClick={()=>{
+          downloadAllFiles(filesData.filesList)
+        }}>
+          Download all files
         </button>
       </div>
     </div>

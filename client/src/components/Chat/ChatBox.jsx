@@ -58,7 +58,7 @@ function ChatBox() {
 
   return (
     <div className="chatbox">
-        <div className="chats">
+        <div className="chats custom-scroll">
           {/* Chatsss... */}
           {
             messages?.map((msg,index)=>{

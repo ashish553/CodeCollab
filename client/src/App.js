@@ -4,7 +4,7 @@ import EditorMain from "./components/Editor/EditorMain";
 import Homepage from "./components/Homepage";
 import SocketContext from "./context/SocketContext";
 import FileContextProvider from './context/FileContext';
-
+import './assets/scss/common.scss'
 
 const router = createBrowserRouter([
   {
