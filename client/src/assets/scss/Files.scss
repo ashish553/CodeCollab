@@ -1,14 +1,10 @@
 .filesContainer{
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    margin: auto;
-    height: 100%;
-    .title{
-        margin-top: 20px;
+    .fileDetails{
+        height: 60%;
     }
     .filesList{
         margin-top: 15px;
+        height: 100%;
         .file{
             width: 85%;
             margin: 10px auto;

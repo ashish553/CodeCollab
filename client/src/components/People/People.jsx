@@ -10,12 +10,13 @@ function People() {
   const navigate = useNavigate()
   const {clientList,setClientList,currentUser,socket} = useContext(Socket)
   useEffect(() => {
-    socket.on('clientListUpdate',(data)=>{
+    const listUpdate = (data) => {
       console.log('dataupdate list',data);
       setClientList([...data.connectedClientList])
-    })
+    }
+    socket.on('clientListUpdate',listUpdate)
     return ()=>{
-      socket.off()
+      socket.off('clientListUpdate',listUpdate)
     }
   },[])
   
@@ -41,7 +42,7 @@ function People() {
   // console.log(clientList);
   return (
     <>
-    <div className="people">
+    <div className="sidebarSectionContainer people">
       <div className="title">Users</div>
       <div className='peopleContainer'>
         <div className="row">

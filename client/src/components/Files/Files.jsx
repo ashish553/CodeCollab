@@ -15,38 +15,7 @@ import JSZip from "jszip"
 
 function Files() {
   const {filesData, setfilesData} = useContext(FileContext)
-  console.log('filesData initiallly when comp load',filesData);
-  console.log(getIconForFile('index.jsx'));
 
-  
-
-  useEffect(() => {
-    const fileUpdated = (data) => {
-      // 
-      console.log('filesdata from socket:', data);
-      if(data.isDeleted){
-        console.log('isdeleted',data);
-        setfilesData({
-          ...(Object.keys(data.filesList).length && filesData),
-          filesList: data.filesList
-        })
-      } else {
-        setfilesData({
-          ...filesData,
-          filesList: data.filesList,
-          currentFile: data.currentFile
-        })
-      }
-      // setfilesData()
-    }
-    socket.on('filesUpdate',fileUpdated)
-  
-    return () => {
-      socket.off('filesUpdate',fileUpdated)
-    }
-  }, [filesData])
-  
-  // const [fileListLocal, setfileListLocal] = useState([])
   const {socket} = useContext(Socket)
 
   // const [fileName, setfileName] = useState('')
@@ -56,7 +25,7 @@ function Files() {
       const blobFile = new Blob([filesList[fileId].value], {
         type: "text/plain;charset=utf-8",
       })
-      console.log(blobFile);
+      // console.log(blobFile);
       zip.file(filesList[fileId].fileName, blobFile)
     }
     zip.generateAsync({ type: "blob" }).then(function (content) {
@@ -109,11 +78,11 @@ function Files() {
   const deleteFile = (fileId) => {
     if(filesData.currentFile.fileId===fileId){
       const tempFileData = filesData
-      console.log('files data in delte func', filesData);
-      console.log('before temp',tempFileData);
+      // console.log('files data in delte func', filesData);
+      // console.log('before temp',tempFileData);
       delete tempFileData.filesList[fileId]
       const firstFileId = Object.keys(tempFileData.filesList)[0]
-      console.log('temp',tempFileData);
+      // console.log('temp',tempFileData);
       setfilesData(
         {
           filesList: tempFileData.filesList,
@@ -149,12 +118,12 @@ function Files() {
   }
 
   return (
-    <div className='filesContainer d-flex justify-content-between'>
-      <div>
+    <div className='sidebarSectionContainer filesContainer d-flex justify-content-between'>
+      <div className='fileDetails'>
         <div className="title">
           Files {filesData?.filesList && '('+Object.keys(filesData.filesList)?.length+')'}
         </div>
-        <div className="filesList">
+        <div className="filesList custom-scroll">
           {
             
             filesData?.filesList && Object.keys(filesData.filesList)?.map((eachFileId,index)=>{
@@ -167,13 +136,19 @@ function Files() {
                     // e.stopPropagation()
                     // console.log(e.target.id.split('-')[0]);
                     // console.log(e.target.id);
-                    fileSelect(e.target.id.split('-')[0])
+                    fileSelect(eachFileId)
                   }}
                 >
                   <Icon
                     icon={getFileName(filesData.filesList[eachFileId].fileName) || 'mdi:file-outline'}
                     fontSize={25}
                     className='mr-2'
+                    // onClick={(e)=>{
+                    //   e.stopPropagation()
+                    //   // console.log(e.target.id.split('-')[0]);
+                    //   // console.log(e.target.id);
+                    //   // fileSelect(e.target.id.split('-')[0])
+                    // }}
                   />
                   <input
                     className="fileItem"

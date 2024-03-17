@@ -13,7 +13,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/editor/:roomID',
-    element: <EditorMain />,
+    element: <FileContextProvider><EditorMain /></FileContextProvider>,
   }
 ])
 
@@ -21,9 +21,9 @@ function App() {
   return (
     <div className="App">
         <SocketContext>
-          <FileContextProvider>
+          {/* <FileContextProvider> */}
             <RouterProvider router={router} />
-          </FileContextProvider>
+          {/* </FileContextProvider> */}
         </SocketContext>
       </div>
     //   {/* <Homepage /> */}

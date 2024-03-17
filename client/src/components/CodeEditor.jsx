@@ -12,24 +12,6 @@ function CodeEditor() {
     const {socket} = useContext(Socket)
     const {filesData,setfilesData} = useContext(FileContext)
 
-    useEffect(() => {
-        const fileUpdated = (data) => {
-        //   console.log('filesdata from socket codeone:', data);
-            console.log('filedata right now in editormirror', filesData);
-            setfilesData({...filesData, filesList: data.filesList, currentFile: {
-                ...filesData.currentFile,
-                value: data.filesList[filesData.currentFile.fileId].value
-            }})
-          // setfilesData()
-        }
-        socket.on('fileDataUpdate',fileUpdated)
-      
-        return () => {
-          socket.off('fileDataUpdate',fileUpdated)
-        }
-      }, [filesData])
-
-    console.log('filesData after',filesData);
 
     
     
@@ -44,7 +26,7 @@ function CodeEditor() {
         )
         socket.emit('fileDataUpdate',data1)
     }
-    console.log('onchanges',filesData);
+    // console.log('onchanges',filesData);
 
     return filesData?.currentFile && <CodeMirror
                 value={filesData?.currentFile?.value}

@@ -5,14 +5,14 @@ import { Socket } from '../context/SocketContext';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { ToastContainer,toast,Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FileContext } from '../context/FileContext';
+// import { FileContext } from '../context/FileContext';
 
 
 
 const Login = (props) => {
 
     const {socket,setsocket,clientList,setClientList,setCurrentUser} = useContext(Socket)
-    const {filesData, setfilesData} = useContext(FileContext)
+    // const {filesData, setfilesData} = useContext(FileContext)
     const [username, setusername] = useState(null)
     const [roomId, setroomId] = useState('')
     const navigate = useNavigate()
@@ -20,6 +20,40 @@ const Login = (props) => {
     useEffect(() => {
         setroomId(location?.state?.roomID)
     }, [])
+    useEffect(()=>{
+        if(socket){
+            let socketID = ''
+
+            socket.on('connect', () => {
+                socketID = socket.id
+                console.log('socketID---',socket);
+            });
+            socket.emit('join',{
+                username,
+                roomId
+            })
+            setCurrentUser({...{
+                username,
+                socketID: 'randomshit'
+            }})
+            let clients = ''
+            socket.on('newClientJoined',(data)=>{
+                console.log(data);
+                clients = data.connectedClientList.length
+                setClientList([...data.connectedClientList])
+            })
+            // socketLocal.on('currentFilesData',(data)=>{
+            //     console.log('clietnsnumber', clients);
+            //     console.log('files data after joined', data);
+            //     setfilesData({...data})
+            // })
+            // setsocket(socketLocal)
+            console.log('join');
+            navigate(`/editor/${roomId}`, {state: {
+                homepage: true
+            }})
+        }
+    },[socket])
     
     
     const joinRoom = async () => {
@@ -36,36 +70,36 @@ const Login = (props) => {
                 transition: Bounce,
             });
         } else {
-            let socketID = ''
+            // let socketID = ''
             const socketLocal = await io('http://localhost:4000')
-            socketLocal.on('connect', () => {
-                socketID = socketLocal.id
-                console.log('socketID---',socketID);
-            });
-            socketLocal.emit('join',{
-                username,
-                roomId
-            })
-            setCurrentUser({...{
-                username,
-                socketID: 'randomshit'
-            }})
-            let clients = ''
-            socketLocal.on('newClientJoined',(data)=>{
-                console.log(data);
-                clients = data.connectedClientList.length
-                setClientList([...data.connectedClientList])
-            })
-            socketLocal.on('currentFilesData',(data)=>{
-                console.log('clietnsnumber', clients);
-                console.log('files data after joined', data);
-                setfilesData({...data})
-            })
+            // socketLocal.on('connect', () => {
+            //     socketID = socketLocal.id
+            //     console.log('socketID---',socketID);
+            // });
+            // socketLocal.emit('join',{
+            //     username,
+            //     roomId
+            // })
+            // setCurrentUser({...{
+            //     username,
+            //     socketID: 'randomshit'
+            // }})
+            // let clients = ''
+            // socketLocal.on('newClientJoined',(data)=>{
+            //     console.log(data);
+            //     clients = data.connectedClientList.length
+            //     setClientList([...data.connectedClientList])
+            // })
+            // // socketLocal.on('currentFilesData',(data)=>{
+            // //     console.log('clietnsnumber', clients);
+            // //     console.log('files data after joined', data);
+            // //     setfilesData({...data})
+            // // })
             setsocket(socketLocal)
-            console.log('join');
-            navigate(`/editor/${roomId}`, {state: {
-                homepage: true
-            }})
+            // console.log('join');
+            // navigate(`/editor/${roomId}`, {state: {
+            //     homepage: true
+            // }})
         }
     }
 
