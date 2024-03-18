@@ -8,14 +8,12 @@ import sliders from '../../assets/images/sliders.svg'
 import Slidenav from './Slidenav';
 import TabContextP, { TabContext } from '../../context/TabContext';
 import { SlideContext } from '../../context/SlideContext';
+import CodeEditor from '../CodeEditor';
 
 
 function Editor() {
-  // const {activeTab, setactiveTab} = useState('Files')
   const {activeTab} = useContext(TabContext)
   const {slideShow} = useContext(SlideContext)
-  // console.log('outside', slideShow);
-  // console.log(activeTab);
   return (
     <div className='sidenavContainer d-flex flex-md-row flex-column-reverse'>
       {/* <TabContextP> */}
@@ -26,6 +24,9 @@ function Editor() {
             <Tab iconName={sliders} iconAlt="Settings icon" tabName={'Settings'}/>
         </div>
         <Slidenav title={activeTab} visibility={slideShow} />
+        <div className="editorContainer custom-scroll">
+          <CodeEditor />
+        </div>
       {/* </TabContextP> */}
     </div>
   )

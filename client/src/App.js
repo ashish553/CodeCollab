@@ -3,9 +3,8 @@ import { Outlet, createBrowserRouter, RouterProvider } from "react-router-dom";
 import EditorMain from "./components/Editor/EditorMain";
 import Homepage from "./components/Homepage";
 import SocketContext from "./context/SocketContext";
-// import Login from "./components/Login";
-// import SlideContextProvider from "./context/SlideContext";
-// import TabContextProvider from "./context/TabContext";
+import FileContextProvider from './context/FileContext';
+import './assets/scss/common.scss'
 
 const router = createBrowserRouter([
   {
@@ -13,8 +12,8 @@ const router = createBrowserRouter([
     element: <Homepage />,
   },
   {
-    path: '/editor',
-    element: <EditorMain />,
+    path: '/editor/:roomID',
+    element: <FileContextProvider><EditorMain /></FileContextProvider>,
   }
 ])
 
@@ -22,7 +21,9 @@ function App() {
   return (
     <div className="App">
         <SocketContext>
-          <RouterProvider router={router} />
+          {/* <FileContextProvider> */}
+            <RouterProvider router={router} />
+          {/* </FileContextProvider> */}
         </SocketContext>
       </div>
     //   {/* <Homepage /> */}

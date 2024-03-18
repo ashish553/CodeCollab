@@ -1,0 +1,48 @@
+.filesContainer{
+    .fileDetails{
+        height: 60%;
+    }
+    .filesList{
+        margin-top: 15px;
+        height: 100%;
+        .file{
+            width: 85%;
+            margin: 10px auto;
+            // border: 1px solid ;
+            border-radius: 6px;
+            padding: 5px 5px;
+            background-color: #212429;
+            &-active{
+                background-color: #3d404a;
+                input.fileItem{
+                    background-color: #3d404a;
+                }
+            }
+            input{
+                width: 100%;
+                outline: none;
+                border: none;
+                background-color: #212429;
+                // opacity: 0;
+                color: white;
+            }
+            .fileDelete{
+                width: 1.2em;
+                height: 1.2rem;
+                filter: invert(34%) sepia(74%) saturate(3663%) hue-rotate(342deg) brightness(100%) contrast(87%);
+            }
+        }
+    }
+    .fileOps{
+        width: 85%;
+        margin: 0px auto;
+        button.newFile{
+            border-radius: 5px;
+            width: 100%;
+            background-color: rgb(57, 224, 121);
+            padding: 5px 5px;
+            margin-bottom: 20px;
+            border: none;
+        }
+    }
+}

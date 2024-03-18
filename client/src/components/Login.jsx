@@ -2,52 +2,105 @@ import { useContext, useEffect, useState } from 'react';
 import '../assets/scss/Login.scss';
 import { io } from 'socket.io-client';
 import { Socket } from '../context/SocketContext';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { ToastContainer,toast,Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+// import { FileContext } from '../context/FileContext';
+
+
 
 const Login = (props) => {
+
     const {socket,setsocket,clientList,setClientList,setCurrentUser} = useContext(Socket)
+    // const {filesData, setfilesData} = useContext(FileContext)
     const [username, setusername] = useState(null)
-    const [roomId, setroomId] = useState(null)
+    const [roomId, setroomId] = useState('')
     const navigate = useNavigate()
+    const location = useLocation()
+    useEffect(() => {
+        setroomId(location?.state?.roomID)
+    }, [])
+    useEffect(()=>{
+        if(socket){
+            let socketID = ''
 
-    // const [sockett, setsockett] = useState(null)
-
-    // useEffect(() => {
-    //   console.log(socket)
+            socket.on('connect', () => {
+                socketID = socket.id
+                console.log('socketID---',socket);
+            });
+            socket.emit('join',{
+                username,
+                roomId
+            })
+            setCurrentUser({...{
+                username,
+                socketID: 'randomshit'
+            }})
+            let clients = ''
+            socket.on('newClientJoined',(data)=>{
+                console.log(data);
+                clients = data.connectedClientList.length
+                setClientList([...data.connectedClientList])
+            })
+            // socketLocal.on('currentFilesData',(data)=>{
+            //     console.log('clietnsnumber', clients);
+            //     console.log('files data after joined', data);
+            //     setfilesData({...data})
+            // })
+            // setsocket(socketLocal)
+            console.log('join');
+            navigate(`/editor/${roomId}`, {state: {
+                homepage: true
+            }})
+        }
+    },[socket])
     
-    // //   return () => {
-    // //     socket?.close()
-    // //   }
-    // }, [socket])
     
     const joinRoom = async () => {
-        let socketID = ''
-        const socketLocal = await io('http://localhost:4000')
-        socketLocal.on('connect', () => {
-            socketID = socketLocal.id
-            console.log('socketID---',socketID);
-        });
-        // setsocket(socketLocal)
-        socketLocal.emit('join',{
-            username,
-            roomId
-        })
-        setCurrentUser({...{
-            username,
-            socketID: 'randomshit'
-        }})
-        socketLocal.on('newClientJoined',(data)=>{
-            console.log(data);
-            setClientList([...data.connectedClientList])
-        })
-        setsocket(socketLocal)
-        // setsockett(socket)
-        console.log('join');
-        navigate('/editor')
-        
-        
-        
-        // setRoomId(roomId)
+        if(!roomId || roomId.length<5) {
+            toast.error('ROOM Id must be at least 5 characters long', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+        } else {
+            // let socketID = ''
+            const socketLocal = await io('http://localhost:4000')
+            // socketLocal.on('connect', () => {
+            //     socketID = socketLocal.id
+            //     console.log('socketID---',socketID);
+            // });
+            // socketLocal.emit('join',{
+            //     username,
+            //     roomId
+            // })
+            // setCurrentUser({...{
+            //     username,
+            //     socketID: 'randomshit'
+            // }})
+            // let clients = ''
+            // socketLocal.on('newClientJoined',(data)=>{
+            //     console.log(data);
+            //     clients = data.connectedClientList.length
+            //     setClientList([...data.connectedClientList])
+            // })
+            // // socketLocal.on('currentFilesData',(data)=>{
+            // //     console.log('clietnsnumber', clients);
+            // //     console.log('files data after joined', data);
+            // //     setfilesData({...data})
+            // // })
+            setsocket(socketLocal)
+            // console.log('join');
+            // navigate(`/editor/${roomId}`, {state: {
+            //     homepage: true
+            // }})
+        }
     }
 
     return(
@@ -57,7 +110,7 @@ const Login = (props) => {
                 <p className='mb-3 tagLine'>Code, Chat, Collaborate.</p>
                 <div className="inputFields mt-4">
                     <div className="inputRoomId">
-                        <input type="text" placeholder="ROOM ID" onChange={(e)=>{
+                        <input value={roomId||''} type="text" placeholder="ROOM ID" onChange={(e)=>{
                             setroomId(e.target.value)
                         }}/>
                     </div>
@@ -70,6 +123,7 @@ const Login = (props) => {
                 </div>
                     <a href="#" className='mt-3'>Generate Unique Room ID</a>
             </div>
+            <ToastContainer />
         </>
     )
 }
