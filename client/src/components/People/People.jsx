@@ -8,22 +8,16 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function People() {
   const navigate = useNavigate()
-  const {clientList,setClientList,currentUser,socket} = useContext(Socket)
-  useEffect(() => {
-    const listUpdate = (data) => {
-      console.log('dataupdate list',data);
-      setClientList([...data.connectedClientList])
-    }
-    socket.on('clientListUpdate',listUpdate)
-    return ()=>{
-      socket.off('clientListUpdate',listUpdate)
-    }
-  },[])
+  const {clientList,setClientList,currentUser,socket,setsocket} = useContext(Socket)
+  
   
   const leaveRoom = () => {
     console.log('currentUser',socket.id);
     socket.emit('leaveRoom',{username: currentUser.username,socketID: socket.id})
-    navigate('/')
+    socket.disconnect()
+    // console.log('socketdiss',socket);
+    setsocket(null)
+    navigate("/")
   }
   const copyURL = () => {
     navigator.clipboard.writeText(window.location.href)

@@ -1,12 +1,12 @@
 // import logo from './logo.svg';
 import { Outlet, createBrowserRouter, RouterProvider } from "react-router-dom";
-import EditorMain from "./components/Editor/EditorMain";
-import Homepage from "./components/Homepage";
 import SocketContext from "./context/SocketContext";
 import FileContextProvider from './context/FileContext';
 import './assets/scss/common.scss'
 import './assets/scss/customs.scss'
 import SettingContextProvider from "./context/SettingContext";
+import Homepage from "./pages/Homepage";
+import EditorMain from "./pages/EditorMain";
 
 const router = createBrowserRouter([
   {
@@ -15,7 +15,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/editor/:roomID',
-    element: <FileContextProvider><SettingContextProvider><EditorMain /></SettingContextProvider></FileContextProvider>,
+    element: <EditorMain />,
   }
 ])
 
