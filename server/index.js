@@ -89,6 +89,11 @@ socketIO.on('connection',async (socket)=>{
       currentFilesData[roomId] = filesData
       socket.to(roomId).emit('filesUpdate',filesData)
     }) //fileDataUpdate
+    socket.on('filesUpdateDelete',(filesData)=>{
+      // console.log(filesData);
+      currentFilesData[roomId] = filesData
+      socket.to(roomId).emit('filesUpdateDelete',filesData)
+    }) //fileDataUpdate
     socket.on('fileDelete',(filesData)=>{
       // console.log(filesData);
       currentFilesData[roomId] = filesData

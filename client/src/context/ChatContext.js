@@ -14,6 +14,7 @@ function ChatProvider({children}) {
           // console.log('MessageList from context after Received', messages);
           setmessages([...messages,messageData])
         }
+        console.log('messages in uft ctx',messages);
         socket.on('messageResponse',reveiveMessage)
         return ()=>{
           // console.log('off...');

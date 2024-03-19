@@ -22,19 +22,14 @@ function FileContextProvider({children}) {
       const fileUpdated = (data) => {
         // 
         console.log('filesdata from socket:', data);
-        if(data.isDeleted){
-          console.log('isdeleted',data);
-          setfilesData({
-            ...(Object.keys(data.filesList).length && filesData),
-            filesList: data.filesList
-          })
-        } else {
+
+          console.log('isupdated');
           setfilesData({
             ...filesData,
             filesList: data.filesList,
             currentFile: data.currentFile
           })
-        }
+        // }
         // setfilesData()
       }
       socket.on('filesUpdate',fileUpdated)
@@ -44,6 +39,32 @@ function FileContextProvider({children}) {
         console.log('filesUpdate off');
       }
     }, [socket])
+
+    useEffect(() => {
+      const fileUpdatedDeleted = (data) => {
+        // 
+        console.log('filesdata from socket:', data);
+        // if(data.isDeleted){
+          console.log('isdeleted',data);
+          setfilesData({
+            ...(Object.keys(data.filesList).length && filesData),
+            filesList: data.filesList
+          })
+          console.log('deleted rendr',{
+            ...(Object.keys(data.filesList).length && filesData),
+            filesList: data.filesList
+          });
+      }
+      console.log('filedata in deleted part',filesData);
+
+      socket.on('filesUpdateDelete',fileUpdatedDeleted)
+    
+      return () => {
+        socket.off('filesUpdateDelete',fileUpdatedDeleted)
+        console.log('filesUpdate off');
+      }
+    }, [filesData])
+
 
     useEffect(() => {
       const fileUpdated = (data) => {
@@ -61,16 +82,6 @@ function FileContextProvider({children}) {
         socket.off('fileDataUpdate',fileUpdated)
       }
     }, [filesData])
-    // const {socket} = useContext(Socket)
-
-    // useEffect(() => {
-    //   if(socket){
-    //     console.log('sahdkhqwoiudhqwiodhoqiwhdioqwhdoiwh');
-    //     socket.emit('reqFetchFilesData',(data)=>{})
-    //   }
-    // }, [
-    //   socket
-    // ])
     
   return (
     <FileContext.Provider value={{filesData, setfilesData}}>

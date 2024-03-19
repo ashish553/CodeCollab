@@ -1,0 +1,29 @@
+// Override Bootstrap variables
+$body-bg: #212429; // Set to any color you want
+$body-color: white; // Set to any color you want
+$form-select-box-shadow: none;
+// $input-border-focus: pink;
+select.custom-select {
+    &:focus {
+      outline: none; /* Removes the default focus outline */
+      box-shadow: 0 0 0 2px #495057; /* Custom focus style */
+      border-color: #8b9096; /* Optional: custom border color on focus */
+    }
+  }
+input.custom-select {
+    &:focus {
+      outline: none; /* Removes the default focus outline */
+      box-shadow: 0 0 0 2px #495057; /* Custom focus style */
+      border-color: #8b9096; /* Optional: custom border color on focus */
+    }
+  }
+  input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+  #basic-addon2{
+    border-radius: 0 5px 5px 0;
+    background-color: #212429;
+  }
+  
+// Import Bootstrap's source SCSS
+@import "~bootstrap/scss/bootstrap";

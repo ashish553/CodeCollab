@@ -13,7 +13,7 @@ import Chat from '../Chat/Chat';
 
 
 
-function Slidenav({title,visibility}) {
+function Slidenav({title,visibility,setthemeFunc}) {
   // const {socket} = useContext(Socket)
   // // console.log(socket);
   // useEffect(() => {
@@ -31,7 +31,7 @@ function Slidenav({title,visibility}) {
     // }
     const tabToComponentMapping = {
       'Files': <Files />,
-      'Settings': <Settings />,
+      'Settings': <Settings setTheme={setthemeFunc}/>,
       'Chat': <ChatBox />,
       'People': <People />,
     }

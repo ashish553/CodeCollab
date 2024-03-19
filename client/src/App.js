@@ -5,6 +5,8 @@ import Homepage from "./components/Homepage";
 import SocketContext from "./context/SocketContext";
 import FileContextProvider from './context/FileContext';
 import './assets/scss/common.scss'
+import './assets/scss/customs.scss'
+import SettingContextProvider from "./context/SettingContext";
 
 const router = createBrowserRouter([
   {
@@ -13,7 +15,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/editor/:roomID',
-    element: <FileContextProvider><EditorMain /></FileContextProvider>,
+    element: <FileContextProvider><SettingContextProvider><EditorMain /></SettingContextProvider></FileContextProvider>,
   }
 ])
 

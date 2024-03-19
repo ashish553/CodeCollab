@@ -73,6 +73,7 @@ function Files() {
         fileName: 'Untitled',
       }
     })
+    console.log('filecreated',filesData);
     
   }
   const deleteFile = (fileId) => {
@@ -93,7 +94,15 @@ function Files() {
           }})
         }
       )
-      socket.emit('filesUpdate',{
+      socket.emit('filesUpdateDelete',{
+        filesList: tempFileData.filesList,
+        ...(tempFileData?.filesList[firstFileId]?.value && {currentFile:{
+          fileId: firstFileId,
+          value: tempFileData?.filesList[firstFileId]?.value,
+          fileName: tempFileData?.filesList[firstFileId]?.fileName,
+        }}),
+      })
+      console.log('fileDeleted',{
         filesList: tempFileData.filesList,
         ...(tempFileData?.filesList[firstFileId]?.value && {currentFile:{
           fileId: firstFileId,
@@ -101,7 +110,7 @@ function Files() {
           fileName: tempFileData?.filesList[firstFileId]?.fileName,
         }}),
         isDeleted: true
-      })
+      });
       // delete filesData.filesList[fileId]
     }else{
       const tempFileData = {...filesData}
@@ -114,6 +123,7 @@ function Files() {
       socket.emit('filesUpdate',{
         ...tempFileData
       })
+      console.log('filedeleted',tempFileData);
     }
   }
 
@@ -131,7 +141,7 @@ function Files() {
                 <div 
                   id={eachFileId}
                   key={eachFileId}
-                  className={`d-flex align-items-center file ${filesData.currentFile.fileId===eachFileId ? 'file-active' : ''}`}
+                  className={`d-flex align-items-center file ${filesData?.currentFile?.fileId===eachFileId ? 'file-active' : ''}`}
                   onClick={(e)=>{
                     // e.stopPropagation()
                     // console.log(e.target.id.split('-')[0]);
