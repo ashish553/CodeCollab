@@ -108,7 +108,7 @@ socketIO.on('connection',async (socket)=>{
 
 app.get('/api', (req, res) => {
   res.json({
-    message: 'Hello world',
+    message: 'Socket Server Running :)',
   });
 });
 

@@ -71,30 +71,9 @@ const Login = (props) => {
             });
         } else {
             // let socketID = ''
-            const socketLocal = await io('http://localhost:4000')
-            // socketLocal.on('connect', () => {
-            //     socketID = socketLocal.id
-            //     console.log('socketID---',socketID);
-            // });
-            // socketLocal.emit('join',{
-            //     username,
-            //     roomId
-            // })
-            // setCurrentUser({...{
-            //     username,
-            //     socketID: 'randomshit'
-            // }})
-            // let clients = ''
-            // socketLocal.on('newClientJoined',(data)=>{
-            //     console.log(data);
-            //     clients = data.connectedClientList.length
-            //     setClientList([...data.connectedClientList])
-            // })
-            // // socketLocal.on('currentFilesData',(data)=>{
-            // //     console.log('clietnsnumber', clients);
-            // //     console.log('files data after joined', data);
-            // //     setfilesData({...data})
-            // // })
+            // console.log(process.env.REACT_APP_SOCKET);
+            const socketLocal = io(process.env.REACT_APP_SOCKET)
+            
             setsocket(socketLocal)
             // console.log('join');
             // navigate(`/editor/${roomId}`, {state: {
