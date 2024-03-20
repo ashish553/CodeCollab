@@ -69,32 +69,23 @@ const Login = (props) => {
                 theme: "dark",
                 transition: Bounce,
             });
+        }else if(!username || username.length<5){
+            toast.error('Username must be at least 5 characters long', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
         } else {
             // let socketID = ''
-            const socketLocal = await io('http://localhost:4000')
-            // socketLocal.on('connect', () => {
-            //     socketID = socketLocal.id
-            //     console.log('socketID---',socketID);
-            // });
-            // socketLocal.emit('join',{
-            //     username,
-            //     roomId
-            // })
-            // setCurrentUser({...{
-            //     username,
-            //     socketID: 'randomshit'
-            // }})
-            // let clients = ''
-            // socketLocal.on('newClientJoined',(data)=>{
-            //     console.log(data);
-            //     clients = data.connectedClientList.length
-            //     setClientList([...data.connectedClientList])
-            // })
-            // // socketLocal.on('currentFilesData',(data)=>{
-            // //     console.log('clietnsnumber', clients);
-            // //     console.log('files data after joined', data);
-            // //     setfilesData({...data})
-            // // })
+            // console.log(process.env.REACT_APP_SOCKET);
+            const socketLocal = io(process.env.REACT_APP_SOCKET)
+            
             setsocket(socketLocal)
             // console.log('join');
             // navigate(`/editor/${roomId}`, {state: {
@@ -117,7 +108,7 @@ const Login = (props) => {
                     <div className="inputUsername mt-3">
                         <input type="text" placeholder="USERNAME" onChange={(e)=>{
                             setusername(e.target.value)
-                        }}/>
+                        }} required/>
                     </div>
                     <button className='mt-4' onClick={joinRoom}><strong>Join</strong></button>
                 </div>

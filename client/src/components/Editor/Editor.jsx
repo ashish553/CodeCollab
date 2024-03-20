@@ -15,16 +15,16 @@ function Editor() {
   const {activeTab} = useContext(TabContext)
   const {slideShow} = useContext(SlideContext)
   return (
-    <div className='sidenavContainer d-flex flex-md-row flex-column-reverse'>
+    <div className='sidenavContainer'>
       {/* <TabContextP> */}
-        <div className="sidenav-close-bar d-flex flex-row flex-md-column justify-content-around justify-content-md-start">
+        <div className="sidenav-close-bar d-flex">
             <Tab iconName={file} iconAlt="Files icon" tabName={'Files'}/>
             <Tab iconName={chat} iconAlt="Chat icon" tabName={'Chat'}/>
             <Tab iconName={people} iconAlt="People icon" tabName={'People'}/>
             <Tab iconName={sliders} iconAlt="Settings icon" tabName={'Settings'}/>
         </div>
-        <Slidenav title={activeTab} visibility={slideShow} />
-        <div className="editorContainer custom-scroll">
+        <Slidenav title={activeTab} visibility={slideShow}/>
+        <div className={`editorContainer custom-scroll ${slideShow && 'mobile-hide'}`}>
           <CodeEditor />
         </div>
       {/* </TabContextP> */}

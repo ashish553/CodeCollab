@@ -1,12 +1,13 @@
 import React, { useContext, useEffect } from 'react'
-import Editor from "./Editor";
-import SlideContextProvider from "../../context/SlideContext";
-import TabContextProvider from "../../context/TabContext";
-import ChatProvider from '../../context/ChatContext';
-import FileContextProvider from '../../context/FileContext';
+import Editor from "../components/Editor/Editor";
+import SlideContextProvider from "../context/SlideContext";
+import TabContextProvider from "../context/TabContext";
+import ChatProvider from '../context/ChatContext';
+import FileContextProvider from '../context/FileContext';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import SettingContextProvider from "../../context/SettingContext";
-import { Socket } from '../../context/SocketContext';
+import SettingContextProvider from "../context/SettingContext";
+import { Socket } from '../context/SocketContext';
+import Loading from '../components/Loading/Loading';
 
 function EditorMain() {
   const {socket} = useContext(Socket)
@@ -25,7 +26,7 @@ function EditorMain() {
 
   return (
     // <SocketProvider>Chats
-    socket && <FileContextProvider>
+    socket?.connected ? <FileContextProvider>
       <SettingContextProvider>
         <ChatProvider>
           <TabContextProvider>
@@ -37,7 +38,7 @@ function EditorMain() {
           </TabContextProvider>
         </ChatProvider>
       </SettingContextProvider>
-    </FileContextProvider>
+    </FileContextProvider> : <Loading />
     // {/* // </SocketProvider> */}
   )
 }

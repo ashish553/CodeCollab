@@ -2,14 +2,15 @@ import React, { useContext } from 'react'
 // import { UnControlled as CodeMirror } from "react-codemirror2";
 import CodeMirror from '@uiw/react-codemirror';
 // import { okaidia } from '@uiw/codemirror-theme-okaidia';
-import { aura } from '@uiw/codemirror-themes-all'
+import * as allThemes from '@uiw/codemirror-themes-all'
 import { langs } from '@uiw/codemirror-extensions-langs';
 import {FileContext} from '../context/FileContext';
 import { Socket } from '../context/SocketContext';
-import { useEffect } from 'react';
+import { SettingContext } from '../context/SettingContext';
 
 function CodeEditor() {
     const {socket} = useContext(Socket)
+    const {font,theme} = useContext(SettingContext)
     const {filesData,setfilesData} = useContext(FileContext)
 
 
@@ -34,9 +35,9 @@ function CodeEditor() {
                 minWidth="100%"
                 onChange={onChange}
                 extensions={[langs.javascript()]}
-                theme={aura}
+                theme={allThemes[theme]}
                 style={{
-                    fontSize: 16 + "px",
+                    fontSize: font + "px",
                 }} 
             />;
 }
