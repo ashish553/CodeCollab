@@ -11,7 +11,7 @@ function Tab({iconName, iconDesc, tabName}) {
     <div className='tabItem'>
         <img src={iconName} alt={iconDesc} onClick={()=>{
           setactiveTab(tabName)
-          tabName === activeTab && setslideShow(!slideShow)
+          tabName === activeTab ? setslideShow(!slideShow) : setslideShow(true) 
         }}/>
     </div>
   )

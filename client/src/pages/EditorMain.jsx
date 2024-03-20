@@ -7,6 +7,7 @@ import FileContextProvider from '../context/FileContext';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import SettingContextProvider from "../context/SettingContext";
 import { Socket } from '../context/SocketContext';
+import Loading from '../components/Loading/Loading';
 
 function EditorMain() {
   const {socket} = useContext(Socket)
@@ -25,7 +26,7 @@ function EditorMain() {
 
   return (
     // <SocketProvider>Chats
-    socket && <FileContextProvider>
+    socket?.connected ? <FileContextProvider>
       <SettingContextProvider>
         <ChatProvider>
           <TabContextProvider>
@@ -37,7 +38,7 @@ function EditorMain() {
           </TabContextProvider>
         </ChatProvider>
       </SettingContextProvider>
-    </FileContextProvider>
+    </FileContextProvider> : <Loading />
     // {/* // </SocketProvider> */}
   )
 }

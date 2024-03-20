@@ -69,6 +69,18 @@ const Login = (props) => {
                 theme: "dark",
                 transition: Bounce,
             });
+        }else if(!username || username.length<5){
+            toast.error('Username must be at least 5 characters long', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
         } else {
             // let socketID = ''
             // console.log(process.env.REACT_APP_SOCKET);
@@ -96,7 +108,7 @@ const Login = (props) => {
                     <div className="inputUsername mt-3">
                         <input type="text" placeholder="USERNAME" onChange={(e)=>{
                             setusername(e.target.value)
-                        }}/>
+                        }} required/>
                     </div>
                     <button className='mt-4' onClick={joinRoom}><strong>Join</strong></button>
                 </div>

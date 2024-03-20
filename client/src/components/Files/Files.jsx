@@ -77,7 +77,7 @@ function Files() {
     
   }
   const deleteFile = (fileId) => {
-    if(filesData.currentFile.fileId===fileId){
+    if(filesData?.currentFile?.fileId===fileId){
       const tempFileData = filesData
       // console.log('files data in delte func', filesData);
       // console.log('before temp',tempFileData);
@@ -184,7 +184,7 @@ function Files() {
                     value={filesData.filesList[eachFileId].fileName}
                   />
                   {/* <button> */}
-                    <img src={trash} alt="Delete icon" class="fileDelete" onClick={(e)=>{
+                    <img src={trash} alt="Delete icon" className="fileDelete" onClick={(e)=>{
                       e.stopPropagation()
                       deleteFile(eachFileId)
                     }}/>
